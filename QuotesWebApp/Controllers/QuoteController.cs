@@ -114,35 +114,35 @@ namespace QuotesWebApp.Controllers
             return Ok(quote);
         }
 
-        // POST api/<QuoteController/5/tags>
-        [HttpPost("{id}/tags")]
-        public async Task<ActionResult<IEnumerable<Tag>>> InsertTags(int id, [FromBody] IEnumerable<int> tagIds) 
-        {
-            var q = await _context.Quotes.FindAsync(id);
-            q.Tags.Add(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
-            _context.Quotes.Update(q);
-            await _context.SaveChangesAsync();
+        //// POST api/<QuoteController/5/tags>
+        //[HttpPost("{id}/tags")]
+        //public async Task<ActionResult<IEnumerable<Tag>>> InsertTags(int id, [FromBody] IEnumerable<int> tagIds) 
+        //{
+        //    var q = await _context.Quotes.FindAsync(id);
+        //    q.Tags.Add(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
+        //    _context.Quotes.Update(q);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTags", new { id = q.Id }, q.Tags);
-        }
+        //    return CreatedAtAction("GetTags", new { id = q.Id }, q.Tags);
+        //}
 
-        // DELETE api/<QuoteController/5/tags>
-        // unlink tags connected with quote 5
-        [HttpDelete("{id}/tags")]
-        public async Task<ActionResult<ICollection<QuoteTag>>> DeleteTags(int id, [FromBody] IEnumerable<int> tagIds) 
-        {
-            var q = await _context.Quotes.FindAsync(id);
-            if (q == null)
-            {
-                return NotFound();
-            }
+        //// DELETE api/<QuoteController/5/tags>
+        //// unlink tags connected with quote 5
+        //[HttpDelete("{id}/tags")]
+        //public async Task<ActionResult<ICollection<QuoteTag>>> DeleteTags(int id, [FromBody] IEnumerable<int> tagIds) 
+        //{
+        //    var q = await _context.Quotes.FindAsync(id);
+        //    if (q == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            q.Tags.Remove(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
-            _context.Quotes.Update(q);
-            await _context.SaveChangesAsync();
+        //    q.Tags.Remove(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
+        //    _context.Quotes.Update(q);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(q.Tags);
-        }
+        //    return Ok(q.Tags);
+        //}
 
         // GET api/<QuoteController/5/tags>
         // get linked tags with quote 5
