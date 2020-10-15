@@ -17,7 +17,7 @@ namespace QuotesWebApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<QuoteTag>().HasKey(qt => new { qt.QuoteId, qt.TagId });
+            modelBuilder.Entity<QuoteTag>().HasKey(qt => new { qt.QuoteId, qt.TagIds });
         }
     }
 }
