@@ -13,7 +13,7 @@ namespace QuotesWebApp.Data
         public int QuoteId { get; set; }
 
         [Key]
-        public IEnumerable<int> TagIds { get; set; }
+        public int TagId { get; set; }
 
         [ForeignKey("QuoteId")]
         public Quote Quote { get; set; }

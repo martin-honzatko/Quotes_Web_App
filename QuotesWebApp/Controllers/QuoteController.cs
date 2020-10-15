@@ -119,7 +119,7 @@ namespace QuotesWebApp.Controllers
         public async Task<ActionResult<IEnumerable<Tag>>> InsertTags(int id, [FromBody] IEnumerable<int> tagIds) 
         {
             var q = await _context.Quotes.FindAsync(id);
-            q.Tags.Add(new QuoteTag { QuoteId = q.Id, TagIds = tagIds });
+            q.Tags.Add(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
             _context.Quotes.Update(q);
             await _context.SaveChangesAsync();
 
@@ -137,7 +137,7 @@ namespace QuotesWebApp.Controllers
                 return NotFound();
             }
 
-            q.Tags.Remove(new QuoteTag { QuoteId = q.Id, TagIds = tagIds });
+            q.Tags.Remove(new QuoteTag { QuoteId = q.Id, TagId = tagIds });
             _context.Quotes.Update(q);
             await _context.SaveChangesAsync();
 
