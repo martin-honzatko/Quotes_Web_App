@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuotesWebApp.Data
+namespace QuotesWebApp.Models
 {
     public enum Category
     {
-        Category0 = 0,
-        Category1 = 1,
-        Category2 = 2
+        Author = 0,
+        Genre = 1,
+        Other = 2
     }
 }

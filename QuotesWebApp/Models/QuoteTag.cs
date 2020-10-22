@@ -5,14 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuotesWebApp.Data
+namespace QuotesWebApp.Models
 {
     public class QuoteTag
     {
         [Key]
+        public int Id { get; set; }
+
         public int QuoteId { get; set; }
 
-        [Key]
         public int TagId { get; set; }
 
         [ForeignKey("QuoteId")]
