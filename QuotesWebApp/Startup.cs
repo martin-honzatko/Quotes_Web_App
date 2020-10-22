@@ -37,7 +37,7 @@ namespace QuotesWebApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options => 
+            services.AddIdentity<QuotesWebApp.Models.ApplicationUser, QuotesWebApp.Models.ApplicationRole>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 6;
