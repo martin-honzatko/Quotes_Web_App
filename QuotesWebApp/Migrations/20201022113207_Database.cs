@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuotesWebApp.Migrations
 {
-    public partial class DatabaseInit : Migration
+    public partial class Database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -184,14 +184,12 @@ namespace QuotesWebApp.Migrations
                 name: "QuoteTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     QuoteId = table.Column<int>(nullable: false),
                     TagId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuoteTags", x => x.Id);
+                    table.PrimaryKey("PK_QuoteTags", x => new { x.QuoteId, x.TagId });
                     table.ForeignKey(
                         name: "FK_QuoteTags_Quotes_QuoteId",
                         column: x => x.QuoteId,
@@ -211,9 +209,9 @@ namespace QuotesWebApp.Migrations
                 columns: new[] { "Id", "Date", "Text" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 10, 22, 11, 46, 3, 822, DateTimeKind.Local).AddTicks(4580), "Some quote0." },
-                    { 2, new DateTime(2020, 10, 22, 11, 46, 3, 826, DateTimeKind.Local).AddTicks(767), "Some quote1." },
-                    { 3, new DateTime(2020, 10, 22, 11, 46, 3, 826, DateTimeKind.Local).AddTicks(921), "Some quote2." }
+                    { 1, new DateTime(2020, 10, 22, 13, 32, 6, 535, DateTimeKind.Local).AddTicks(8249), "Some quote0." },
+                    { 2, new DateTime(2020, 10, 22, 13, 32, 6, 541, DateTimeKind.Local).AddTicks(2136), "Some quote1." },
+                    { 3, new DateTime(2020, 10, 22, 13, 32, 6, 541, DateTimeKind.Local).AddTicks(2530), "Some quote2." }
                 });
 
             migrationBuilder.InsertData(
@@ -228,18 +226,18 @@ namespace QuotesWebApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "QuoteTags",
-                columns: new[] { "Id", "QuoteId", "TagId" },
-                values: new object[] { 1, 1, 1 });
+                columns: new[] { "QuoteId", "TagId" },
+                values: new object[] { 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "QuoteTags",
-                columns: new[] { "Id", "QuoteId", "TagId" },
-                values: new object[] { 2, 2, 2 });
+                columns: new[] { "QuoteId", "TagId" },
+                values: new object[] { 2, 2 });
 
             migrationBuilder.InsertData(
                 table: "QuoteTags",
-                columns: new[] { "Id", "QuoteId", "TagId" },
-                values: new object[] { 3, 3, 3 });
+                columns: new[] { "QuoteId", "TagId" },
+                values: new object[] { 3, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -279,11 +277,6 @@ namespace QuotesWebApp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuoteTags_QuoteId",
-                table: "QuoteTags",
-                column: "QuoteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuoteTags_TagId",

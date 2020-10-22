@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +24,17 @@ namespace QuotesWebApp.Controllers
 
         // GET: api/Tag
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Tag>>> GetTags()
         {
-            return await _context.Tags.ToListAsync();
+            var result = await _context.Tags.ToListAsync();
+
+            return Ok(result);
         }
 
         // GET: api/Tag/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Tag>> GetTag(int id)
         {
             var tag = await _context.Tags.FindAsync(id);
@@ -39,13 +44,14 @@ namespace QuotesWebApp.Controllers
                 return NotFound();
             }
 
-            return tag;
+            return Ok(tag);
         }
 
         // PUT: api/Tag/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutTag(int id, Tag tag)
         {
             if (id != tag.Id)
@@ -78,6 +84,7 @@ namespace QuotesWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Tag>> PostTag(Tag tag)
         {
             _context.Tags.Add(tag);
@@ -88,6 +95,7 @@ namespace QuotesWebApp.Controllers
 
         // DELETE: api/Tag/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Tag>> DeleteTag(int id)
         {
             var tag = await _context.Tags.FindAsync(id);
@@ -99,7 +107,7 @@ namespace QuotesWebApp.Controllers
             _context.Tags.Remove(tag);
             await _context.SaveChangesAsync();
 
-            return tag;
+            return Ok(tag);
         }
 
         private bool TagExists(int id)

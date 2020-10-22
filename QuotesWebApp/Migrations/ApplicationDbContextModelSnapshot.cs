@@ -162,10 +162,12 @@ namespace QuotesWebApp.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -202,10 +204,12 @@ namespace QuotesWebApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -237,19 +241,19 @@ namespace QuotesWebApp.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2020, 10, 22, 13, 12, 15, 416, DateTimeKind.Local).AddTicks(5790),
+                            Date = new DateTime(2020, 10, 22, 13, 32, 6, 535, DateTimeKind.Local).AddTicks(8249),
                             Text = "Some quote0."
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2020, 10, 22, 13, 12, 15, 419, DateTimeKind.Local).AddTicks(9727),
+                            Date = new DateTime(2020, 10, 22, 13, 32, 6, 541, DateTimeKind.Local).AddTicks(2136),
                             Text = "Some quote1."
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2020, 10, 22, 13, 12, 15, 419, DateTimeKind.Local).AddTicks(9915),
+                            Date = new DateTime(2020, 10, 22, 13, 32, 6, 541, DateTimeKind.Local).AddTicks(2530),
                             Text = "Some quote2."
                         });
                 });

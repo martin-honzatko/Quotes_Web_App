@@ -37,7 +37,7 @@ namespace QuotesWebApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<QuotesWebApp.Models.ApplicationUser, QuotesWebApp.Models.ApplicationRole>(options => 
+            services.AddDefaultIdentity<IdentityUser>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 6;
@@ -45,22 +45,22 @@ namespace QuotesWebApp
                 options.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
-                    ClockSkew = TimeSpan.FromMinutes(1)
-                };
-            });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            //{
+            //    options.SaveToken = true;
+            //    options.RequireHttpsMetadata = true;
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Issuer"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+            //        ClockSkew = TimeSpan.FromMinutes(1)
+            //    };
+            //});
 
             services.ConfigureApplicationCookie(options =>
             {

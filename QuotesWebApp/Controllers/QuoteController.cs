@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotesWebApp.Models;
 using QuotesWebApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuotesWebApp.Controllers
 {
@@ -23,6 +24,7 @@ namespace QuotesWebApp.Controllers
 
         // GET: api/Quote
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Quote>>> GetQuote()
         {
             return await _context.Quotes.ToListAsync();
@@ -30,6 +32,7 @@ namespace QuotesWebApp.Controllers
 
         // GET: api/Quote/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Quote>> GetQuote(int id)
         {
             var quote = await _context.Quotes.FindAsync(id);
@@ -46,6 +49,7 @@ namespace QuotesWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutQuote(int id, Quote quote)
         {
             if (id != quote.Id)
@@ -78,6 +82,7 @@ namespace QuotesWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Quote>> PostQuote([FromBody]Quote quote)
         {
             _context.Quotes.Add(quote);
@@ -88,6 +93,7 @@ namespace QuotesWebApp.Controllers
 
         // DELETE: api/Quote/5
         [HttpDelete("{id?}")]
+        [Authorize]
         public async Task<ActionResult<Quote>> DeleteQuote(int id)
         {
             var quote = await _context.Quotes.FindAsync(id);
@@ -103,21 +109,21 @@ namespace QuotesWebApp.Controllers
         }
 
         [HttpGet("{id}/tags")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Tag>>> GetQuoteTags(int id)
         {
-            var quote = await _context.Quotes.Where(q => q.Id == id)
-                    .Include(s => s.Tags)
-                    .ThenInclude(tag => tag.Tag).AsNoTracking().SingleOrDefaultAsync();
+            var quote = await _context.Quotes.Where(q => q.Id == id).Include(s => s.Tags).ThenInclude(tag => tag.Tag).AsNoTracking().SingleOrDefaultAsync();
 
             if (quote == null)
             {
                 return NotFound();
             }
 
-            return quote.Tags.Select(tag => tag.Tag).ToList();
+            return Ok(quote.Tags.Select(tag => tag.Tag).ToList());
         }
 
         [HttpGet("{id}/full")]
+        [Authorize]
         public async Task<ActionResult<QuoteTagsVM>> GetQuoteFull(int id)
         {
             var quote = await _context.Quotes.Where(q => q.Id == id)
@@ -129,26 +135,18 @@ namespace QuotesWebApp.Controllers
                 return NotFound();
             }
 
-            QuoteTagsVM result = new QuoteTagsVM
-            {
-                Id = quote.Id,
-                Text = quote.Text,
-                Tags = quote.Tags.Select(tag => tag.Tag).ToList()
-            };
-            return result;
+            QuoteTagsVM result = new QuoteTagsVM { Id = quote.Id, Text = quote.Text, Tags = quote.Tags.Select(tag => tag.Tag).ToList() };
+            return Ok(result);
         }
 
         [HttpPost("{id}/tags")]
+        [Authorize]
         public async Task<ActionResult<Quote>> PostTags(int id, [FromBody] IEnumerable<int> tagIds)
         {
             IList<QuoteTag> quoteTags = new List<QuoteTag>();
             foreach (var item in tagIds)
             {
-                QuoteTag newQuote = new QuoteTag
-                {
-                    QuoteId = id,
-                    TagId = item
-                };
+                QuoteTag newQuote = new QuoteTag { QuoteId = id, TagId = item };
                 quoteTags.Add(newQuote);
             }
             _context.QuoteTags.AddRange(quoteTags);
@@ -159,6 +157,7 @@ namespace QuotesWebApp.Controllers
 
         // DELETE: api/Quotes/5/tags/1
         [HttpDelete("{quoteId}/tags/{quoteTagId}")]
+        [Authorize]
         public async Task<ActionResult<QuoteTag>> DeleteQuote(int quoteId, int tagId)
         {
             var quoteTag = await _context.QuoteTags.Where(x => x.QuoteId == quoteId && x.TagId == tagId).SingleOrDefaultAsync();
@@ -170,7 +169,7 @@ namespace QuotesWebApp.Controllers
             _context.QuoteTags.Remove(quoteTag);
             await _context.SaveChangesAsync();
 
-            return quoteTag;
+            return Ok(quoteTag);
         }
 
         private bool QuoteExists(int id)

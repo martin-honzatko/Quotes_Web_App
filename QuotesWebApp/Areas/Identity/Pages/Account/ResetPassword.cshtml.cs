@@ -9,16 +9,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using QuotesWebApp.Models;
 
 namespace QuotesWebApp.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
+        public ResetPasswordModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
